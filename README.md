@@ -13,7 +13,8 @@ Summary	Total spending by date range
 Analytics	Category distribution & daily trend chart
 Tech Stack	FastAPI + Streamlit + MySQL
 
-
+## 🎥 Demo
+[![Watch the demo](https://img.youtube.com/vi/a5KmQfWea8c/0.jpg)](https://youtu.be/a5KmQfWea8c)
 
 🧱 Architecture
 Project
