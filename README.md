@@ -1,48 +1,135 @@
-# Expense Tracker (FastAPI + Streamlit + MySQL)
+Expense Tracker (FastAPI + Streamlit + MySQL)
 
-A complete end-to-end expense management system with backend API and interactive UI.
+A full-stack expense management application that enables users to record daily expenses, view and filter spending, analyze category-wise trends, and track spending patterns over time.
 
-## 🧾 Features
-- Add / update expenses
-- View / delete expenses
-- Summary by date range
-- Category-wise analytics with charts
-- SQLite storage + FastAPI REST backend
-- Streamlit frontend
+This project demonstrates a modular full-stack setup using FastAPI, Streamlit, and MySQL, following clean separation of concerns between UI and REST API services.
 
-## 🛠️ Tech Stack
-### Backend
-- FastAPI
-- Pydantic
-- SQLite
-- SQLAlchemy
-- pytest (tests)
+✅ Features
+Category	Capability
+Add Expense	Date, category, amount, notes
+View Expense	Filter by date range, table view
+Delete Expense	Delete entries by date
+Summary	Total spending by date range
+Analytics	Category distribution & daily trend chart
+Tech Stack	FastAPI + Streamlit + MySQL
 
-### Frontend
-- Streamlit
-- Pandas
-- Requests
 
-## 🚀 Run Project
 
-### 1️⃣ Start Backend
-## 🛠️ Backend Installation
+🧱 Architecture
+Project
+│── Backend
+│   ├── api.py                # FastAPI app + routes
+│   ├── db_helper.py          # DB operations
+│   ├── logging_setup.py
+│   └── sql
+│       ├── schema.sql
+│       └── seed.sql
+│
+└── Frontend
+    ├── app.py                # Streamlit entry point
+    ├── AddUpdateUI.py
+    ├── ViewDeleteUI.py
+    ├── SummaryUI.py
+    └── AnalyticsUI.py
 
-```bash
+🧠 Database Schema
+CREATE TABLE IF NOT EXISTS expenses (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    expense_date DATE NOT NULL,
+    amount DECIMAL(10,2) NOT NULL,
+    category VARCHAR(50) NOT NULL,
+    notes VARCHAR(255)
+);
+
+⚙️ Setup Instructions
+1️⃣ Clone Repo
+git clone https://github.com/<your-username>/expense-tracker-fastapi-streamlit.git
+cd expense-tracker-fastapi-streamlit
+
+2️⃣ Install Dependencies
 pip install -r requirements.txt
-uvicorn Backend.api:app --reload --port 8000
 
-## 🚀 Run Locally
+3️⃣ Configure Environment
 
-### 1️⃣ Create virtual env
-python -m venv venv
-source venv/Scripts/activate  # Windows PowerShell
+Create .env:
 
-### 2️⃣ Install dependencies
-pip install -r requirements.txt
+MYSQL_HOST=127.0.0.1
+MYSQL_PORT=3306
+MYSQL_USER=exp_user
+MYSQL_PASSWORD=MyAppPass#123
+MYSQL_DB=expense_manager
 
-### 3️⃣ Run backend (FastAPI)
-uvicorn Backend.api:app --reload --port 8000
+4️⃣ Setup MySQL
+mysql -u root -p
 
-### 4️⃣ Run frontend (Streamlit)
-streamlit run Frontend/app.py --server.port 8502
+CREATE DATABASE expense_manager;
+CREATE USER 'exp_user'@'%' IDENTIFIED BY 'MyAppPass#123';
+GRANT ALL PRIVILEGES ON expense_manager.* TO 'exp_user'@'%';
+FLUSH PRIVILEGES;
+
+
+Load schema:
+
+mysql -u exp_user -p expense_manager < Backend/sql/schema.sql
+mysql -u exp_user -p expense_manager < Backend/sql/seed.sql
+
+▶️ Run Services
+Start FastAPI Backend
+uvicorn Backend.api:app --reload
+
+
+API Docs:
+http://127.0.0.1:8000/docs
+
+Start Streamlit Frontend
+cd Frontend
+streamlit run app.py
+
+
+Set API URL inside the app:
+http://127.0.0.1:8000
+
+📡 API Examples
+Add Expense (POST)
+POST /expense
+{
+  "expense_date": "2025-01-10",
+  "amount": 120.50,
+  "category": "Food",
+  "notes": "Lunch"
+}
+
+Get Expenses (GET)
+GET /expenses?start_date=2025-01-01&end_date=2025-01-31
+
+🧪 Testing
+pytest
+
+📊 Sample Analytics
+
+Category spending bar chart
+
+Daily spending line chart
+
+Spending summary totals
+
+🧰 Troubleshooting
+Issue	Fix
+MySQL connection refused	Ensure MySQL service is running
+CORS error	Check FastAPI CORSMiddleware settings
+API not reachable from Streamlit	Verify correct API URL
+🚀 Future Roadmap
+
+User authentication (JWT)
+
+Docker deployment
+
+Recurring expense reminders
+
+Mobile-first UI
+
+Multi-user support
+
+📎 License
+
+MIT License
