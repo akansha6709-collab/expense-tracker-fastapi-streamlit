@@ -1,4 +1,4 @@
-# Expense Tracker (FastAPI + Streamlit + SQLite)
+# Expense Tracker (FastAPI + Streamlit + MySQL)
 
 A complete end-to-end expense management system with backend API and interactive UI.
 
